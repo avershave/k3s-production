@@ -1,0 +1,7 @@
+cd "$(dirname "${BASH_SOURCE[0]}")"
+source ../scripts/utils
+import_vars ../env
+kubectl config set-context --current --namespace=default
+MKDOCS_DIR=~/k3s-production/mkdocs
+
+helm_deploy -r ../env -p ../helm -u -f topomojo.values.yaml sei/topomojo

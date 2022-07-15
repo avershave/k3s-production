@@ -27,6 +27,7 @@ helm repo add sei https://helm.cyberforce.site/charts
 helm repo add stackstorm https://helm.stackstorm.com/
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo add longhorn https://charts.longhorn.io
+helm repo add bitnami https://charts.bitnami.com/bitnami 
 helm repo update
 
 echo "Sleeping for 10 seconds ctrl+c to cancel"
