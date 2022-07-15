@@ -1,0 +1,12 @@
+apiVersion: 1
+kind: PersistentVolumeClaim
+metadata:
+  name: topomojo
+spec:
+  storageClassName: nfs
+  resources:
+    requests:
+      storage: 5Ti
+  accessModes:
+    - ReadWriteOnce
+  volumeName: topomojo-nfs-1

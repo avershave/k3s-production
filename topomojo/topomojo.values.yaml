@@ -76,8 +76,8 @@ topomojo-api:
 
   # storage - either an existing pvc, the size for a new pvc, or emptyDir
   storage:
-    existing: ''
-    size: '4G'
+    existing: 'topomojo'
+    size: ''
     mode: ReadWriteOnce
     class: $STORAGE_CLASS_NFS
 
