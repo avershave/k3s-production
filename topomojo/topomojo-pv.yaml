@@ -10,4 +10,4 @@ spec:
     - ReadWriteOnce
   nfs:
     server: FS-01.ramrod.io
-    path: '$TOPOMJO_ISOSTORE_NAME'
+    path: '$TOPOMJO_ISOSTORE'

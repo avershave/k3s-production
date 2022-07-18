@@ -158,6 +158,10 @@ topomojo-api:
     FileUpload__TopoRoot: /mnt/tm
     FileUpload__IsoRoot: /mnt/tm
     FileUpload__DocRoot: /mnt/tm/_docs
+    Oidc__Authority: https://$DOMAIN/identity
+    ApiKeyClients__0__Id: gameengine
+    ApiKeyClients__0__Key: foundry
+    ApiKeyClients__0__Scope: gameboard
     Headers__Cors__Origins__0: 'https://$DOMAIN'
     Headers_Forwarding__TargetHeaders: 'All'
     Core__ConsoleHost: 'https://$DOMAIN/vm/connect'
@@ -178,9 +182,9 @@ topomojo-api:
     Pod__Password: '$TOPOMOJO_PASS'
     Pod__PoolPath: '$TOPOMOJO_POD_POOLPATH'
     Pod__Uplink: '$TOPOMOJO_DVS'
-    Pod__VmStore: '$TOPOMOJO_VMSTORE'
-    Pod__IsoStore: '$TOPOMOJO_ISOSTORE'
-    Pod__DiskStore: '$TOPOMOJO_DISKSTORE'
+    Pod__VmStore: '[$TOPOMOJO_VMSTORE] vm/'
+    Pod__IsoStore: '[$TOPOMOJO_ISOSTORE] topomojo-topomojo-api/'
+    Pod__DiskStore: '[$TOPOMOJO_DISKSTORE] topomojo/'
     Pod__TicketUrlHandler: host-map
     Pod_TicketUrlHostMap: []
     Pod__Vlan__Range: '1500-2000'
