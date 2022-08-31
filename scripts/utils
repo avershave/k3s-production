@@ -219,7 +219,7 @@ function import_root_ca() {
 
 function curl_proxy() {
   cmd="curl "
-  if [ -n $PROXY ]; then
+  if [ -n "$PROXY" ]; then
     echo "Proxy not empty setting to $PROXY"
     cmd+="--proxy $PROXY $@"
     "echo running command: $cmd"
