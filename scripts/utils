@@ -208,7 +208,8 @@ function import_root_ca() {
       ;;
     ubuntu|debian)
       echo $LOCAL_SUDO_PASS | sudo -S cp $cert_path /usr/local/share/ca-certificates/$base.crt
-      echo $LOCAL_SUDO_PASS | sudo -S update-ca-certificates  
+      echo $LOCAL_SUDO_PASS | sudo -S cp $cert_path /etc/ssl/certs/$base.pem
+      echo $LOCAL_SUDO_PASS | sudo -S update-ca-certificates
       ;;
     darwin)
       echo "$LOCAL_SUDO_PASS" | sudo -S security unlock-keychain -u -p "$LOCAL_SUDO_PASS" /Library/Keychains/System.keychain
