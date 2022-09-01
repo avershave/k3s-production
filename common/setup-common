@@ -50,9 +50,9 @@ helm_deploy -r ../env -p ../helm -u -f code-server.values.yaml nicholaswilde/cod
 
 # Install NFS server
 helm_deploy -r ../env -p ../helm -u -f nfs-server-provisioner.values.yaml kvaps/nfs-server-provisioner
-kubectl patch $INGRESS_KIND $INGRESS_NAMESPACE-$INGRESS_CONTROLLER_NAME -n $INGRESS_NAMESPACE --type 'json' --patch \
+kubectl patch $INGRESS_KIND $INGRESS_NAMESPACE-ngnix-$INGRESS_CONTROLLER_NAME -n $INGRESS_NAMESPACE --type 'json' --patch \
   '[{"op": "add", "path": "/spec/template/spec/containers/0/ports/-", "value": {"name":"nfs-tcp","hostPort":2049,"containerPort":2049,"protocol":"TCP"}}]' || true
-kubectl patch $INGRESS_KIND $INGRESS_NAMESPACE-$INGRESS_CONTROLLER_NAME -n $INGRESS_NAMESPACE --type 'json' --patch \
+kubectl patch $INGRESS_KIND $INGRESS_NAMESPACE-ngnix-$INGRESS_CONTROLLER_NAME -n $INGRESS_NAMESPACE --type 'json' --patch \
   '[{"op": "add", "path": "/spec/template/spec/containers/0/ports/-", "value": {"name":"nfs-udp","hostPort":2049,"containerPort":2049,"protocol":"UDP"}}]' || true
 envsubst < nfs-ingress.yaml | kubectl apply -f - --dry-run=client -o yaml | kubectl apply -f -
 
