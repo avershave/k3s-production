@@ -59,6 +59,8 @@ identity-api:
     Account__Authentication__SigningCertificatePassword: $ADMIN_PASS
     Account__Authentication__NoticeFile: 'conf/notice.html'
     Account__Authentication__CertificateIssuers: 'DoD Identity'
+    Account__Authentication__AllowAutoLogin: true
+    Account__Authentication__AllowCredentialLogin: true
     AppMail__Url:
     AppMail__Key:
     AppMail__From:
@@ -73,6 +75,7 @@ identity-api:
     # Headers__Cors__AllowCredentials: true
     Headers__Forwarding__TargetHeaders: All
     Headers__Forwarding__KnownNetworks: '10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 ::ffff:a00:0/104 ::ffff:ac10:0/108 ::ffff:c0a8:0/112'
+    Headers__Security__ContentSecurity: "default-src 'self'; style-src 'self' http://$DOMAIN/identity 'unsafe-inline'; script-src 'self' http://$DOMAIN/identity 'unsafe-inline' 'unsafe-eval'"
 
   conf:
     issuers: ''
@@ -143,10 +146,10 @@ identity-api:
             "Name": "moodle-client",
             "DisplayName": "Moodle",
             "Enabled": true,
-            "SeedFlags": "Published, AlwaysSendClientClaims, RequireConsent, AlwaysIncludeUserClaimsInIdToken, UpdateAccessTokenClaimsOnRefresh, AllowAccessTokensViaBrowser"
+            "SeedFlags": "Published, AlwaysSendClientClaims, RequireConsent, AlwaysIncludeUserClaimsInIdToken, UpdateAccessTokenClaimsOnRefresh, AllowAccessTokensViaBrowser",
             "SeedGrant": "authorization_code",
             "SeedScopes": "openid email profile organizaiton topomojo-api identity-api identity-api-privileged alloy-api steamfitter-api caster-api",
-            "SeedSecret": "foundry"
+            "SeedSecret": "foundry",
             "Urls": [
               { "Type": "ClientUri", "Value": "https://moodle.$DOMAIN/" },
               { "Type": "RedirectUri", "Value": "https://moodle.$DOMAIN/admin/oauth2callback.php" }
@@ -405,8 +408,8 @@ identity-ui:
       nginx.ingress.kubernetes.io/auth-tls-verify-client: 'optional'
       nginx.ingress.kubernetes.io/auth-tls-secret: 'ingress/dod-certs'
       nginx.ingress.kubernetes.io/auth-tls-verify-depth: '2'
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        proxy_set_header ssl-client-serial $ssl_client_serial;
+      # nginx.ingress.kubernetes.io/configuration-snippet: |
+      #  proxy_set_header ssl-client-serial $ssl_client_serial;
     hosts:
       - host: $DOMAIN
         paths:
