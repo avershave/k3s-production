@@ -148,10 +148,10 @@ identity-api:
             "Enabled": true,
             "SeedFlags": "Published, AlwaysSendClientClaims, RequireConsent, AlwaysIncludeUserClaimsInIdToken, UpdateAccessTokenClaimsOnRefresh, AllowAccessTokensViaBrowser",
             "SeedGrant": "authorization_code",
-            "SeedScopes": "openid email profile organizaiton topomojo-api identity-api identity-api-privileged alloy-api steamfitter-api caster-api",
+            "SeedScopes": "openid profile email player-api alloy-api steamfitter-api caster-api topomojo-api gameboard-api vm-api vm-console-api",
             "SeedSecret": "foundry",
             "Urls": [
-              { "Type": "ClientUri", "Value": "https://moodle.$DOMAIN/" },
+              { "Type": "ClientUri", "Value": "https://moodle.$DOMAIN" },
               { "Type": "RedirectUri", "Value": "https://moodle.$DOMAIN/admin/oauth2callback.php" }
             ]
           },

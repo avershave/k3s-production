@@ -15,7 +15,7 @@ controller:
     # for backwards compatibility consider setting the full image url via the repository value below
     # use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
     # repository:
-    tag: "v1.1.0"
+    tag: 'v1.1.0'
     digest: sha256:f766669fdcf3dc26347ed273a55e754b427eb4411ee075a53f30718b4499076a
     pullPolicy: IfNotPresent
     # www-data -> uid 101
@@ -23,7 +23,7 @@ controller:
     allowPrivilegeEscalation: true
 
   # Use an existing PSP instead of creating one
-  existingPsp: ""
+  existingPsp: ''
 
   # Configures the controller container name
   containerName: controller
@@ -101,7 +101,7 @@ controller:
     name: nginx
     enabled: true
     default: true
-    controllerValue: "k8s.io/ingress-nginx"
+    controllerValue: 'k8s.io/ingress-nginx'
 
     # Parameters is a link to a custom resource containing additional
     # configuration for the controller. This is optional if the controller
@@ -132,38 +132,38 @@ controller:
     ## Allows overriding of the publish service to bind to
     ## Must be <namespace>/<service_name>
     ##
-    pathOverride: ""
+    pathOverride: ''
 
   ## Limit the scope of the controller
   ##
   scope:
     enabled: false
-    namespace: ""   # defaults to $(POD_NAMESPACE)
+    namespace: 'ingress-nginx-controller' # defaults to $(POD_NAMESPACE)
     # When scope.enabled == false, instead of watching all namespaces, we watching namespaces whose labels
     #   only match with namespaceSelector. Format like foo=bar. Defaults to empty, means watching all namespaces.
-    namespaceSelector: ""
+    namespaceSelector: ''
 
   ## Allows customization of the configmap / nginx-configmap namespace
   ##
-  configMapNamespace: ""   # defaults to $(POD_NAMESPACE)
+  configMapNamespace: 'ingress-nginx-controller' # defaults to $(POD_NAMESPACE)
 
   ## Allows customization of the tcp-services-configmap
   ##
   tcp:
-    configMapNamespace: ""   # defaults to $(POD_NAMESPACE)
+    configMapNamespace: 'ingress-nginx-controller' # defaults to $(POD_NAMESPACE)
     ## Annotations to be added to the tcp config configmap
     annotations: {}
 
   ## Allows customization of the udp-services-configmap
   ##
   udp:
-    configMapNamespace: ""   # defaults to $(POD_NAMESPACE)
+    configMapNamespace: 'ingress-nginx-controller' # defaults to $(POD_NAMESPACE)
     ## Annotations to be added to the udp config configmap
     annotations: {}
 
   # Maxmind license key to download GeoLite2 Databases
   # https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases
-  maxmindLicenseKey: ""
+  maxmindLicenseKey: ''
 
   ## Additional command line arguments to pass to nginx-ingress-controller
   ## E.g. to specify the default SSL certificate you can use
@@ -195,7 +195,6 @@ controller:
   #  keel.sh/policy: patch
   #  keel.sh/trigger: poll
 
-
   # The update strategy to apply to the Deployment or DaemonSet
   ##
   updateStrategy: {}
@@ -206,7 +205,6 @@ controller:
   # minReadySeconds to avoid killing pods before we are ready
   ##
   minReadySeconds: 0
-
 
   ## Node tolerations for server scheduling to nodes with taints
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
@@ -220,7 +218,8 @@ controller:
   ## Affinity and anti-affinity
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ##
-  affinity: {}
+  affinity:
+    {}
     # # An example of preferred pod anti-affinity, weight is in the range 1-100
     # podAntiAffinity:
     #   preferredDuringSchedulingIgnoredDuringExecution:
@@ -264,7 +263,8 @@ controller:
   ## Topology spread constraints rely on node labels to identify the topology domain(s) that each Node is in.
   ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
   ##
-  topologySpreadConstraints: []
+  topologySpreadConstraints:
+    []
     # - maxSkew: 1
     #   topologyKey: failure-domain.beta.kubernetes.io/zone
     #   whenUnsatisfiable: DoNotSchedule
@@ -300,7 +300,7 @@ controller:
   livenessProbe:
     httpGet:
       # should match container.healthCheckPath
-      path: "/healthz"
+      path: '/healthz'
       port: 10254
       scheme: HTTP
     initialDelaySeconds: 10
@@ -311,7 +311,7 @@ controller:
   readinessProbe:
     httpGet:
       # should match container.healthCheckPath
-      path: "/healthz"
+      path: '/healthz'
       port: 10254
       scheme: HTTP
     initialDelaySeconds: 10
@@ -320,15 +320,14 @@ controller:
     successThreshold: 1
     failureThreshold: 3
 
-
   # Path of the health check endpoint. All requests received on the port defined by
   # the healthz-port parameter are forwarded internally to this path.
-  healthCheckPath: "/healthz"
+  healthCheckPath: '/healthz'
 
   # Address to bind the health check endpoint.
   # It is better to set this option to the internal node address
   # if the ingress nginx controller is running in the hostNetwork: true mode.
-  healthCheckHost: ""
+  healthCheckHost: ''
 
   ## Annotations to be added to controller pods
   ##
@@ -343,9 +342,9 @@ controller:
   # Ideally, there should be no limits.
   # https://engineering.indeedblog.com/blog/2019/12/cpu-throttling-regression-fix/
   resources:
-  #  limits:
-  #    cpu: 100m
-  #    memory: 90Mi
+    #  limits:
+    #    cpu: 100m
+    #    memory: 90Mi
     requests:
       cpu: 100m
       memory: 90Mi
@@ -357,7 +356,8 @@ controller:
     maxReplicas: 11
     targetCPUUtilizationPercentage: 50
     targetMemoryUtilizationPercentage: 50
-    behavior: {}
+    behavior:
+      {}
       # scaleDown:
       #   stabilizationWindowSeconds: 300
       #  policies:
@@ -384,10 +384,10 @@ controller:
 
   # Mutually exclusive with hpa autoscaling
   keda:
-    apiVersion: "keda.sh/v1alpha1"
-  # apiVersion changes with keda 1.x vs 2.x
-  # 2.x = keda.sh/v1alpha1
-  # 1.x = keda.k8s.io/v1alpha1
+    apiVersion: 'keda.sh/v1alpha1'
+    # apiVersion changes with keda 1.x vs 2.x
+    # 2.x = keda.sh/v1alpha1
+    # 1.x = keda.k8s.io/v1alpha1
     enabled: false
     minReplicas: 1
     maxReplicas: 11
@@ -400,26 +400,26 @@ controller:
       #  annotations:
       # key: value
     triggers: []
- #     - type: prometheus
- #       metadata:
- #         serverAddress: http://<prometheus-host>:9090
- #         metricName: http_requests_total
- #         threshold: '100'
- #         query: sum(rate(http_requests_total{deployment="my-deployment"}[2m]))
+    #     - type: prometheus
+    #       metadata:
+    #         serverAddress: http://<prometheus-host>:9090
+    #         metricName: http_requests_total
+    #         threshold: '100'
+    #         query: sum(rate(http_requests_total{deployment="my-deployment"}[2m]))
 
     behavior: {}
- #     scaleDown:
- #       stabilizationWindowSeconds: 300
- #       policies:
- #       - type: Pods
- #         value: 1
- #         periodSeconds: 180
- #     scaleUp:
- #       stabilizationWindowSeconds: 300
- #       policies:
- #       - type: Pods
- #         value: 2
- #         periodSeconds: 60
+  #     scaleDown:
+  #       stabilizationWindowSeconds: 300
+  #       policies:
+  #       - type: Pods
+  #         value: 1
+  #         periodSeconds: 180
+  #     scaleUp:
+  #       stabilizationWindowSeconds: 300
+  #       policies:
+  #       - type: Pods
+  #         value: 2
+  #         periodSeconds: 60
 
   ## Enable mimalloc as a drop-in replacement for malloc.
   ## ref: https://github.com/microsoft/mimalloc
@@ -428,8 +428,8 @@ controller:
 
   ## Override NGINX template
   customTemplate:
-    configMapName: ""
-    configMapKey: ""
+    configMapName: ''
+    configMapKey: ''
 
   service:
     enabled: true
@@ -451,7 +451,7 @@ controller:
     ##
     externalIPs: []
 
-    loadBalancerIP: "$INGRESS_IP"
+    loadBalancerIP: ''
     loadBalancerSourceRanges: []
 
     enableHttp: true
@@ -459,7 +459,7 @@ controller:
 
     ## Set external traffic policy to: "Local" to preserve source IP on providers supporting it.
     ## Ref: https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-typeloadbalancer
-    externalTrafficPolicy: "Local"
+    externalTrafficPolicy: 'Local'
 
     ## Must be either "None" or "ClientIP" if set. Kubernetes will default to "None".
     ## Ref: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
@@ -474,7 +474,7 @@ controller:
     ## SingleStack, PreferDualStack or RequireDualStack.
     ## The ipFamilies and clusterIPs fields depend on the value of this field.
     ## Ref: https://kubernetes.io/docs/concepts/services-networking/dual-stack/
-    ipFamilyPolicy: "SingleStack"
+    ipFamilyPolicy: 'SingleStack'
 
     ## List of IP families (e.g. IPv4, IPv6) assigned to the service. This field is usually assigned automatically
     ## based on cluster configuration and the ipFamilyPolicy field.
@@ -499,8 +499,8 @@ controller:
     #   tcp:
     #     8080: 32808
     nodePorts:
-      http: ""
-      https: ""
+      http: ''
+      https: ''
       tcp: {}
       udp: {}
 
@@ -574,15 +574,15 @@ controller:
     failurePolicy: Fail
     # timeoutSeconds: 10
     port: 8443
-    certificate: "/usr/local/certificates/cert"
-    key: "/usr/local/certificates/key"
+    certificate: '/usr/local/certificates/cert'
+    key: '/usr/local/certificates/key'
     namespaceSelector: {}
     objectSelector: {}
     ## Labels to be added to admission webhooks
     labels: {}
 
     # Use an existing PSP instead of creating one
-    existingPsp: ""
+    existingPsp: ''
 
     service:
       annotations: {}
@@ -594,7 +594,8 @@ controller:
       type: ClusterIP
 
     createSecretJob:
-      resources: {}
+      resources:
+        {}
         # limits:
         #   cpu: 10m
         #   memory: 20Mi
@@ -618,7 +619,7 @@ controller:
         pullPolicy: IfNotPresent
       ## Provide a priority class name to the webhook patching job
       ##
-      priorityClassName: ""
+      priorityClassName: ''
       podAnnotations: {}
       nodeSelector:
         kubernetes.io/os: linux
@@ -656,7 +657,7 @@ controller:
       additionalLabels: {}
       # The label to use to retrieve the job name from.
       # jobLabel: "app.kubernetes.io/name"
-      namespace: ""
+      namespace: ''
       namespaceSelector: {}
       # Default: scrape .Release.Namespace only
       # To scrape all, use the following:
@@ -671,7 +672,8 @@ controller:
       enabled: false
       additionalLabels: {}
       # namespace: ""
-      rules: []
+      rules:
+        []
         # # These are just examples rules, please adapt them to your needs
         # - alert: NGINXConfigFailed
         #   expr: count(nginx_ingress_controller_config_last_reload_successful == 0) > 0
@@ -719,7 +721,7 @@ controller:
         command:
           - /wait-shutdown
 
-  priorityClassName: ""
+  priorityClassName: ''
 
 ## Rollback limit
 ##
@@ -738,7 +740,7 @@ defaultBackend:
     # for backwards compatibility consider setting the full image url via the repository value below
     # use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
     # repository:
-    tag: "1.5"
+    tag: '1.5'
     pullPolicy: IfNotPresent
     # nobody user -> uid 65534
     runAsUser: 65534
@@ -747,13 +749,13 @@ defaultBackend:
     allowPrivilegeEscalation: false
 
   # Use an existing PSP instead of creating one
-  existingPsp: ""
+  existingPsp: ''
 
   extraArgs: {}
 
   serviceAccount:
     create: true
-    name: ""
+    name: ''
     automountServiceAccountToken: true
   ## Additional environment variables to set for defaultBackend pods
   extraEnvs: []
@@ -858,7 +860,7 @@ defaultBackend:
     servicePort: 80
     type: ClusterIP
 
-  priorityClassName: ""
+  priorityClassName: ''
   ## Labels to be added to the default backend resources
   labels: {}
 
@@ -874,7 +876,7 @@ podSecurityPolicy:
 
 serviceAccount:
   create: true
-  name: ""
+  name: ''
   automountServiceAccountToken: true
 
 ## Optional array of imagePullSecrets containing private registry credentials
@@ -898,4 +900,3 @@ udp: {}
 # This can be generated with: openssl dhparam 4096 2> /dev/null | base64
 # Ref: https://github.com/kubernetes/ingress-nginx/tree/main/docs/examples/customization/ssl-dh-param
 dhParam:
-
