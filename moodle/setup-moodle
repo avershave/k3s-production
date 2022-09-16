@@ -19,7 +19,7 @@ envsubst < moodle.values.yaml | helm install -f - moodle bitnami/moodle --wait -
 export moodlePodName=$(kubectl get pods | grep moodle | grep -v maria | awk '{print $1}')
 
 if [ -z "$moodlePodName" ]; then
-  echo "${RED}moodlePodName NOT SET${NC}"
+  echo -e "${RED}moodlePodName NOT SET${NC}"
   exit 1
 fi
 
@@ -47,7 +47,7 @@ kubectl exec -it $moodlePodName -- /bin/bash -c "sed -i 's/;opcache.save_comment
 kubectl exec -it $moodlePodName -- /bin/bash -c "sed -i 's/;opcache.enable_file_override=0/opcache.enable_file_override=0/' /opt/bitnami/php/etc/php.ini"
 echo -e "${WHITE}DONE${NC}"
 
-echo "${WHITE}OAuth2 Provider Setup${NC}"
+echo -e "${WHITE}OAuth2 Provider Setup${NC}"
 ISSUER_CMD=$(kubectl exec -it $moodlePodName -- /bin/bash -c \
   "php /bitnami/moodle/admin/tool/foundrysync/cli/manage.php \
   --baseurl=$IDENTITY_URL \
@@ -64,17 +64,21 @@ ISSUER_CMD=$(kubectl exec -it $moodlePodName -- /bin/bash -c \
 IFS=',' read -r -a RESULT <<< $ISSUER_CMD
 
 if [ "${RESULT[0]}" != "true" ]; then
-  echo "${RED}Failed to create new OAuth2 issuer, exiting...${NC}"
+  echo -e "${RED}Failed to create new OAuth2 issuer, exiting...${NC}"
   exit 1
 fi
 
-echo "${WHITE}OAuth2 Provider configured${NC}"
+echo -e "${WHITE}OAuth2 Provider configured${NC}"
 
-echo "${WHITE}Setting theme_foundry id to newly created issuer...${NC}"
-kubectl exec -it $moodlePodName -- /bin/bash -c "/bitnami/moodle/admin/cli/cfg.php --component=theme_moove --name=issuerid --set=$NEW_ISSUER_ID"
+echo -e "${WHITE}Setting theme_foundry id to newly created issuer...${NC}"
+kubectl exec -it $moodlePodName -- /bin/bash -c "php /bitnami/moodle/admin/cli/cfg.php --component=theme_moove --name=issuerid --set=$NEW_ISSUER_ID"
+echo -e "${WHITE}DONE${NC}"
+
+echo -e "${WHITE}Enabling oAuth2${NC}"
+kubectl exec -it $moodlePodName -- /bin/bash -c "php /bitnami/moodle/admin/cli/cfg.php --name=auth --set=oauth2,outage"
 echo "${WHITE}DONE${NC}"
 
-echo "${WHITE}==========Setting additional reccommended options==========${NC}"
+echo -e "${WHITE}==========Setting additional reccommended options==========${NC}"
 echo -e "${WHITE}Setting timezone${NC}"
 kubectl exec -it $moodlePodName -- /bin/bash -c "php /bitnami/moodle/admin/cli/cfg.php --name=timezone --set=America/New_York"
 echo -e "${WHITE}Turning off email change confirmation${NC}"
