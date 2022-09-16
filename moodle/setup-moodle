@@ -71,7 +71,7 @@ fi
 echo -e "${WHITE}OAuth2 Provider configured${NC}"
 
 echo -e "${WHITE}Setting theme_foundry id to newly created issuer...${NC}"
-kubectl exec -it $moodlePodName -- /bin/bash -c "php /bitnami/moodle/admin/cli/cfg.php --component=theme_moove --name=issuerid --set=$NEW_ISSUER_ID"
+kubectl exec -it $moodlePodName -- /bin/bash -c "php /bitnami/moodle/admin/cli/cfg.php --component=theme_moove --name=issuerid --set=${RESULT[1]}"
 echo -e "${WHITE}DONE${NC}"
 
 echo -e "${WHITE}Enabling oAuth2${NC}"
