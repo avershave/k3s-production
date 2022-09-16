@@ -1,7 +1,9 @@
 #/bin/bash
 
 source ../scripts/utils
-import_vars ../env
+set -a
+. ../env > /dev/null 2>&1
+set +a
 kubectl config set-context --current --namespace=default
 
 #######################
@@ -13,7 +15,7 @@ NC='\033[0m' # NO COLOR
 
 echo -e "${WHITE}Waiting for Moodle to start up, this can take ~6m${NC}"
 echo -e "${WHITE}You can always check the progress with kubectl get pods${NC}"
-helm_deploy -r ../env -p ../helm -u -f moodle.values.yaml bitnami/moodle --wait -t 6m
+envsubst < moodle.values.yaml | helm install -f - moodle bitnami/moodle --wait --timeout 6m
 export moodlePodName=$(kubectl get pods | grep moodle | grep -v maria | awk '{print $1}')
 
 if [ -z "$moodlePodName" ]; then
@@ -25,6 +27,8 @@ fi
 echo -e "${WHITE}Applying moove theme and foundrysync tool${NC}"
 unzip theme_moove.zip
 unzip tool_foundrysync.zip
+kubectl cp moove $moodlePodName:/bitnami/moodle/theme/
+kubectl cp foundrysync $moodlePodName:/bitnami/moodle/admin/tool/
 kubectl exec -it $moodlePodName -- /bin/bash -c "php /bitnami/moodle/admin/cli/upgrade.php --non-interactive --allow-unstable"
 echo -e "${WHITE}DONE${NC}"
 
