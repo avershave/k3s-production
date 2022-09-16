@@ -13,6 +13,15 @@ RED='\033[0;31m'
 WHITE='\033[1;37m'
 NC='\033[0m' # NO COLOR
 
+cat << "EOF"
+                                 .-..-.
+   _____                         | || |
+  /____/-.---_  .---.  .---.  .-.| || | .---.
+  | |  _   _  |/  _  \/  _  \/  _  || |/  __ \
+  * | | | | | || |_| || |_| || |_| || || |___/
+    |_| |_| |_|\_____/\_____/\_____||_|\_____)
+EOF
+
 echo -e "${WHITE}Waiting for Moodle to start up, this can take ~6m${NC}"
 echo -e "${WHITE}You can always check the progress with kubectl get pods${NC}"
 envsubst < moodle.values.yaml | helm install -f - moodle bitnami/moodle --wait --timeout 6m
@@ -64,6 +73,7 @@ ISSUER_CMD=$(kubectl exec -it $moodlePodName -- /bin/bash -c \
 IFS=',' read -r -a RESULT <<< $ISSUER_CMD
 
 if [ "${RESULT[0]}" != "true" ]; then
+  echo -e "${RED}ERROR: ${RESULT[0]}"
   echo -e "${RED}Failed to create new OAuth2 issuer, exiting...${NC}"
   exit 1
 fi
