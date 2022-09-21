@@ -34,8 +34,8 @@ fi
 
 
 echo -e "${WHITE}Applying moove theme and foundrysync tool${NC}"
-unzip -o theme_moove.zip
-unzip -o tool_foundrysync.zip
+unzip -oq theme_moove.zip
+unzip -oq tool_foundrysync.zip
 kubectl cp moove $moodlePodName:/bitnami/moodle/theme/
 kubectl cp foundrysync $moodlePodName:/bitnami/moodle/admin/tool/
 kubectl exec -it $moodlePodName -- /bin/bash -c "php /bitnami/moodle/admin/cli/upgrade.php --non-interactive --allow-unstable"
