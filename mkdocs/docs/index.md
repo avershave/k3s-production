@@ -16,7 +16,7 @@
 
 | location                         | description                                                                                      |
 | -------------------------------- | ------------------------------------------------------------------------------------------------ |
-| [moodle](https://moodle.$domain) | _Moodle_ is an LMS that provides the framework that handles all aspects of the learning process. |
+| [moodle](https://moodle.$DOMAIN) | _Moodle_ is an LMS that provides the framework that handles all aspects of the learning process. |
 
 # Third-party Applications
 
