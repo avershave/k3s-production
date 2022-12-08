@@ -16,17 +16,17 @@ metadata:
       }
 spec:
   rules:
-  - host: foundry.local
-    http:
-      paths:
-      - path: /console
-        pathType: Prefix
-        backend:
-          service:
-            name: topomojo-topomojo-api
-            port:
-              number: 80
+    - host: $DOMAIN
+      http:
+        paths:
+          - path: /console
+            pathType: Prefix
+            backend:
+              service:
+                name: topomojo-topomojo-api
+                port:
+                  number: 80
   tls:
-  - hosts:
-    - foundry.local
-    secretName: appliance-cert
+    - hosts:
+        - $DOMAIN
+      secretName: appliance-cert
